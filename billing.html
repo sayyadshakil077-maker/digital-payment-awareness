@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>General Store Billing | DigitalPay Awareness</title>
+  <link rel="stylesheet" href="billing.css">
+</head>
+<body class="billing-page">
+  <header class="topbar no-print">
+    <a class="brand" href="../dashboard.html">Digital<span>Pay</span> Awareness</a>
+    <div class="top-actions">
+      <a class="link-btn" href="../dashboard.html">← Dashboard</a>
+      <button class="btn btn-light" id="loadSampleBtn" type="button">Load Sample</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero-card">
+      <div>
+        <p class="eyebrow">SMALL BUSINESS TOOL</p>
+        <h1>🛒 General Store Billing</h1>
+        <p>Create a grocery bill, calculate totals automatically, and generate a printable invoice.</p>
+      </div>
+      <div class="invoice-chip">
+        <span>Invoice</span>
+        <strong id="billNoDisplay">GS-000001</strong>
+      </div>
+    </section>
+
+    <form id="billingForm" novalidate>
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <span class="step">01</span>
+            <h2>Shop Details</h2>
+          </div>
+          <p>These details appear on the final receipt.</p>
+        </div>
+
+        <div class="form-grid two-col">
+          <label class="field">
+            <span>Shop Name *</span>
+            <input id="shopName" type="text" value="ABC GENERAL STORE" required>
+          </label>
+          <label class="field">
+            <span>Tagline</span>
+            <input id="shopTagline" type="text" value="Your Trusted Grocery Store">
+          </label>
+          <label class="field full">
+            <span>Shop Address *</span>
+            <textarea id="shopAddress" rows="2" required>Mumbai, Maharashtra</textarea>
+          </label>
+          <label class="field">
+            <span>Mobile Number *</span>
+            <input id="shopMobile" type="tel" value="98XXXXXXXX" required>
+          </label>
+          <label class="field">
+            <span>GSTIN (optional)</span>
+            <input id="gstin" type="text" placeholder="XXXXXXXXXXXXXX">
+          </label>
+          <label class="field">
+            <span>Tax Split</span>
+            <select id="taxMode">
+              <option value="intra">Intra-state (CGST + SGST)</option>
+              <option value="inter">Inter-state (IGST)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Shop Logo (optional)</span>
+            <input id="shopLogo" type="file" accept="image/png,image/jpeg,image/webp">
+            <small>PNG/JPG/WebP, kept only in this browser.</small>
+          </label>
+          <div class="logo-preview-wrap">
+            <div id="logoPreview" class="logo-preview">LOGO</div>
+            <button id="removeLogoBtn" class="text-btn" type="button">Remove logo</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <span class="step">02</span>
+            <h2>Customer & Invoice</h2>
+          </div>
+          <p>Customer details are optional.</p>
+        </div>
+
+        <div class="form-grid three-col">
+          <label class="field">
+            <span>Customer Name</span>
+            <input id="customerName" type="text" placeholder="e.g. Rahul">
+          </label>
+          <label class="field">
+            <span>Customer Mobile</span>
+            <input id="customerMobile" type="tel" placeholder="Optional">
+          </label>
+          <div class="info-box">
+            <span>Bill Number</span>
+            <strong id="billNoInfo">GS-000001</strong>
+          </div>
+          <div class="info-box">
+            <span>Date</span>
+            <strong id="dateInfo">--</strong>
+          </div>
+          <div class="info-box">
+            <span>Time</span>
+            <strong id="timeInfo">--</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel products-panel">
+        <div class="section-heading">
+          <div>
+            <span class="step">03</span>
+            <h2>Products</h2>
+          </div>
+          <p>Add as many grocery items as needed.</p>
+        </div>
+
+        <div id="productErrors" class="error-banner" hidden></div>
+
+        <div class="table-scroll">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Qty</th>
+                <th>Unit</th>
+                <th>Rate ₹</th>
+                <th>Discount ₹</th>
+                <th>Tax %</th>
+                <th>Total ₹</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="productBody"></tbody>
+          </table>
+        </div>
+
+        <button id="addProductBtn" class="btn btn-outline add-product" type="button">＋ ADD PRODUCT</button>
+
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div><span>Subtotal</span><strong id="subtotalDisplay">₹0.00</strong></div>
+            <div><span>Total Discount</span><strong id="discountDisplay">− ₹0.00</strong></div>
+            <div><span>Tax</span><strong id="taxDisplay">+ ₹0.00</strong></div>
+            <div class="grand"><span>Grand Total</span><strong id="grandTotalDisplay">₹0.00</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <div>
+            <span class="step">04</span>
+            <h2>Payment Details</h2>
+          </div>
+          <p>This project records billing information only. It does not process real payments.</p>
+        </div>
+
+        <div class="form-grid three-col">
+          <label class="field">
+            <span>Payment Method *</span>
+            <select id="paymentMethod" required>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Debit Card">Debit Card</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Other">Other</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Amount Paid ₹ *</span>
+            <input id="amountPaid" type="number" min="0" step="0.01" value="0" required>
+          </label>
+          <div class="info-box">
+            <span>Balance Amount</span>
+            <strong id="balanceDisplay">₹0.00</strong>
+          </div>
+          <div class="info-box status-box">
+            <span>Payment Status</span>
+            <strong id="paymentStatus" class="status pending">PENDING</strong>
+          </div>
+          <label class="field full" id="transactionField" hidden>
+            <span>Transaction ID / Reference Number (optional)</span>
+            <input id="transactionId" type="text" autocomplete="off" placeholder="Reference only — never enter PIN, CVV, password or OTP">
+          </label>
+        </div>
+
+        <div class="safety-note">
+          <strong>Security reminder:</strong> Never enter or store UPI PIN, ATM/Card PIN, CVV, banking password, or OTP in this billing project.
+        </div>
+      </section>
+
+      <div id="formError" class="error-banner" hidden></div>
+
+      <div class="form-actions">
+        <a class="btn btn-light" href="../dashboard.html">Cancel</a>
+        <button class="btn btn-primary show-bill-btn" type="submit">SHOW BILL →</button>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer no-print">
+    <strong>Digital Pay Awareness</strong> — Learn. Pay. Stay Safe.<br>
+    <small>Educational college project. No real payment gateway is connected.</small>
+  </footer>
+
+  <script src="billing.js"></script>
+</body>
+</html>

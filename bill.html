@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final Grocery Bill | DigitalPay Awareness</title>
+  <link rel="stylesheet" href="billing.css">
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+</head>
+<body class="bill-page">
+  <header class="topbar no-print">
+    <a class="brand" href="../dashboard.html">Digital<span>Pay</span> Awareness</a>
+    <a class="link-btn" href="billing.html">← Edit / Create Bill</a>
+  </header>
+
+  <main class="receipt-shell">
+    <div id="billError" class="error-banner no-print" hidden></div>
+
+    <article id="invoice" class="invoice-paper">
+      <header class="invoice-header">
+        <div id="invoiceLogoWrap" class="invoice-logo" hidden>
+          <img id="invoiceLogo" alt="Shop logo">
+        </div>
+        <div class="shop-heading">
+          <h1 id="invoiceShopName">ABC GENERAL STORE</h1>
+          <p id="invoiceTagline">Your Trusted Grocery Store</p>
+          <p id="invoiceAddress"></p>
+          <p><span id="invoicePhone"></span><span id="invoiceGstinWrap" hidden> · GSTIN: <span id="invoiceGstin"></span></span></p>
+        </div>
+        <div class="invoice-title">
+          <span>TAX INVOICE / BILL</span>
+        </div>
+      </header>
+
+      <section class="invoice-meta">
+        <div><span>Bill No</span><strong id="rBillNo">—</strong></div>
+        <div><span>Date</span><strong id="rDate">—</strong></div>
+        <div><span>Time</span><strong id="rTime">—</strong></div>
+        <div id="rCustomerWrap" hidden><span>Customer</span><strong id="rCustomer">—</strong></div>
+        <div id="rMobileWrap" hidden><span>Mobile</span><strong id="rMobile">—</strong></div>
+      </section>
+
+      <div class="invoice-table-wrap">
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Rate</th>
+              <th>Discount</th>
+              <th>Tax</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody id="receiptProducts"></tbody>
+        </table>
+      </div>
+
+      <section class="receipt-bottom">
+        <div class="payment-card">
+          <h3>Payment</h3>
+          <div><span>Method</span><strong id="rPaymentMethod">—</strong></div>
+          <div><span>Status</span><strong id="rPaymentStatus">—</strong></div>
+          <div><span>Amount Paid</span><strong id="rAmountPaid">—</strong></div>
+          <div><span>Balance</span><strong id="rBalance">—</strong></div>
+          <div id="rTransactionWrap" hidden><span>Reference ID</span><strong id="rTransactionId">—</strong></div>
+        </div>
+
+        <div class="totals-card">
+          <div><span>Subtotal</span><strong id="rSubtotal">—</strong></div>
+          <div><span>Total Discount</span><strong id="rDiscount">—</strong></div>
+          <div><span>Taxable Amount</span><strong id="rTaxable">—</strong></div>
+          <div id="rCgstWrap" hidden><span>CGST</span><strong id="rCgst">—</strong></div>
+          <div id="rSgstWrap" hidden><span>SGST</span><strong id="rSgst">—</strong></div>
+          <div id="rIgstWrap" hidden><span>IGST</span><strong id="rIgst">—</strong></div>
+          <div class="total-payable"><span>TOTAL PAYABLE</span><strong id="rGrandTotal">—</strong></div>
+        </div>
+      </section>
+
+      <section class="thank-you">
+        <h2>Thank You for Shopping With Us!</h2>
+        <p>Please Visit Again</p>
+        <strong>Digital Pay Awareness</strong>
+        <small>Learn. Pay. Stay Safe.</small>
+      </section>
+    </article>
+
+    <div class="receipt-actions no-print">
+      <button id="downloadPdfBtn" class="btn btn-primary" type="button">⬇ DOWNLOAD PDF</button>
+      <button id="printBillBtn" class="btn btn-outline" type="button">🖨 PRINT BILL</button>
+      <button id="newBillBtn" class="btn btn-light" type="button">＋ NEW BILL</button>
+    </div>
+  </main>
+
+  <script src="bill.js"></script>
+  <script src="pdf.js"></script>
+</body>
+</html>
